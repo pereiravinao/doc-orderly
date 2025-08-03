@@ -44,7 +44,7 @@
             display: block;
         }
         .flow-node {
-            @apply bg-white p-4 rounded-lg shadow-lg text-center transition-transform duration-300 hover:-translate-y-1;
+            @apply bg-white p-2 rounded-lg shadow-lg transition-transform duration-300 hover:-translate-y-1;
         }
         .flow-connector {
             @apply flex items-center justify-center text-gray-400;
@@ -153,34 +153,50 @@
                 <div class="bg-gray-100 p-6 rounded-lg">
                     <div class="flex flex-col items-center space-y-2">
 
-                        <div class="flow-node w-72">
-                            <i class="fas fa-user text-indigo-500 text-2xl mb-2"></i>
-                            <h4 class="font-bold">1. Cliente</h4>
-                            <p class="text-xs text-gray-500">Inicia o pedido via API REST</p>
+                        <div class="flow-node w-80">
+                            <div class="flex items-center">
+                                <i class="fas fa-user text-indigo-500 text-3xl w-12 text-center flex-shrink-0"></i>
+                                <div class="ml-3 text-left">
+                                    <h4 class="font-bold">1. Cliente</h4>
+                                    <p class="text-xs text-gray-500">Inicia o pedido via API REST</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
 
-                        <div class="flow-node w-72">
-                            <i class="fas fa-inbox text-indigo-500 text-2xl mb-2"></i>
-                            <h4 class="font-bold">2. Order Receiver</h4>
-                            <p class="text-xs text-gray-500">Recebe, valida e publica na fila</p>
+                        <div class="flow-node w-80">
+                            <div class="flex items-center">
+                                <i class="fas fa-inbox text-indigo-500 text-3xl w-12 text-center flex-shrink-0"></i>
+                                <div class="ml-3 text-left">
+                                    <h4 class="font-bold">2. Order Receiver</h4>
+                                    <p class="text-xs text-gray-500">Recebe, valida e publica na fila</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
 
-                        <div class="flow-node w-72">
-                            <i class="fas fa-envelope text-blue-500 text-2xl mb-2"></i>
-                            <h4 class="font-bold">3. RabbitMQ</h4>
-                            <p class="text-xs text-gray-500">Pedido aguarda em uma fila</p>
+                        <div class="flow-node w-80">
+                            <div class="flex items-center">
+                                <i class="fas fa-envelope text-blue-500 text-3xl w-12 text-center flex-shrink-0"></i>
+                                <div class="ml-3 text-left">
+                                    <h4 class="font-bold">3. RabbitMQ</h4>
+                                    <p class="text-xs text-gray-500">Pedido aguarda em uma fila</p>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
 
-                        <div class="flow-node w-72">
-                            <i class="fas fa-cogs text-indigo-500 text-2xl mb-2"></i>
-                            <h4 class="font-bold">4. Order Service</h4>
-                            <p class="text-xs text-gray-500">Consome da fila e inicia a orquestração</p>
+                        <div class="flow-node w-80">
+                            <div class="flex items-center">
+                                <i class="fas fa-cogs text-indigo-500 text-3xl w-12 text-center flex-shrink-0"></i>
+                                <div class="ml-3 text-left">
+                                    <h4 class="font-bold">4. Order Service</h4>
+                                    <p class="text-xs text-gray-500">Consome da fila e inicia a orquestração</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
@@ -189,30 +205,42 @@
                             <h4 class="font-bold text-center text-indigo-700 mb-4">Orquestração de Validações</h4>
                             <div class="flex flex-col items-center space-y-2">
                                 <div class="flow-node w-full">
-                                     <i class="fas fa-exchange-alt text-green-500 text-xl mb-2"></i>
-                                     <h5 class="font-semibold">4a. Validação de Estoque</h5>
-                                     <p class="text-xs text-gray-500">Comunicação com <strong>Stock Service</strong></p>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-exchange-alt text-green-500 text-2xl w-10 text-center flex-shrink-0"></i>
+                                        <div class="ml-3 text-left">
+                                            <h5 class="font-semibold">4a. Validação de Estoque</h5>
+                                            <p class="text-xs text-gray-500">Comunicação com <strong>Stock Service</strong></p>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 <div class="flow-connector text-xl"><i class="fas fa-long-arrow-alt-down"></i></div>
 
                                 <div class="flow-node w-full">
-                                    <i class="fas fa-exchange-alt text-green-500 text-xl mb-2"></i>
-                                    <h5 class="font-semibold">4b. Processamento de Pagamento</h5>
-                                    <p class="text-xs text-gray-500">Comunicação com <strong>Payment Service</strong></p>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-exchange-alt text-green-500 text-2xl w-10 text-center flex-shrink-0"></i>
+                                        <div class="ml-3 text-left">
+                                            <h5 class="font-semibold">4b. Processamento de Pagamento</h5>
+                                            <p class="text-xs text-gray-500">Comunicação com <strong>Payment Service</strong></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
 
-                        <div class="flow-node w-72">
-                             <i class="fas fa-flag-checkered text-purple-500 text-2xl mb-2"></i>
-                             <h4 class="font-bold">5. Atualização de Status Final</h4>
-                             <div class="mt-2 flex flex-wrap justify-center gap-2">
-                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">SUCESSO</span>
-                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200">SEM ESTOQUE</span>
-                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200">SEM CRÉDITO</span>
+                        <div class="flow-node w-80">
+                            <div class="flex items-start">
+                                <i class="fas fa-flag-checkered text-purple-500 text-3xl w-12 text-center flex-shrink-0 pt-1"></i>
+                                <div class="ml-3 text-left">
+                                    <h4 class="font-bold">5. Atualização de Status Final</h4>
+                                    <div class="mt-2 flex flex-wrap gap-2">
+                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">SUCESSO</span>
+                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200">SEM ESTOQUE</span>
+                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200">SEM CRÉDITO</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -310,11 +338,11 @@ make down</code></pre>
                 <p class="text-lg text-gray-600 mb-8">Recursos adicionais, incluindo o vídeo de apresentação do projeto e links para repositórios e documentações.</p>
 
                 <div class="mb-12">
-                    <h3 class="text-2xl font-bold mb-4">Vídeo de Apresentação</h3>
+                    <h3 class="text-2xl font-bold mb-4">Vídeo de Demonstração</h3>
                     <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg shadow-lg overflow-hidden">
                         <iframe 
                             class="w-full h-full"
-                            src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                            src="https://www.youtube.com/embed/INSERIR_ID_DO_VIDEO_AQUI" 
                             title="YouTube video player" 
                             frameborder="0" 
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -326,39 +354,30 @@ make down</code></pre>
                 <div>
                     <h3 class="text-2xl font-bold mb-4">Links Úteis</h3>
                     <div class="grid md:grid-cols-2 gap-6">
-                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <a href="[URL_DO_REPOSITORIO]" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                             <div class="flex items-center">
                                 <i class="fab fa-github text-3xl text-gray-800"></i>
                                 <div class="ml-4">
-                                    <h4 class="font-bold text-lg">Repositório do Projeto</h4>
-                                    <p class="text-gray-600 text-sm">Acesse todo o código-fonte no GitHub.</p>
+                                    <h4 class="font-bold text-lg">Repositório Monorepo</h4>
+                                    <p class="text-gray-600 text-sm">Acesse o código-fonte no GitHub.</p>
                                 </div>
                             </div>
                         </a>
-                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <a href="[URL_DO_RELATORIO_JACOCO]" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                             <div class="flex items-center">
-                                <i class="fas fa-book-open text-3xl text-blue-500"></i>
+                                <i class="fas fa-chart-pie text-3xl text-green-500"></i>
                                 <div class="ml-4">
-                                    <h4 class="font-bold text-lg">Documentação da API</h4>
-                                    <p class="text-gray-600 text-sm">Explore os endpoints via Swagger/OpenAPI.</p>
+                                    <h4 class="font-bold text-lg">Relatório de Cobertura</h4>
+                                    <p class="text-gray-600 text-sm">Visualize o relatório JaCoCo centralizado.</p>
                                 </div>
                             </div>
                         </a>
-                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <a href="[URL_DA_COLECAO_POSTMAN]" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                              <div class="flex items-center">
-                                <i class="fas fa-chart-line text-3xl text-green-500"></i>
+                                <i class="fas fa-rocket text-3xl text-orange-500"></i>
                                 <div class="ml-4">
-                                    <h4 class="font-bold text-lg">Painel de Monitoramento</h4>
-                                    <p class="text-gray-600 text-sm">Visualize métricas e logs (Grafana/Kibana).</p>
-                                </div>
-                            </div>
-                        </a>
-                         <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                             <div class="flex items-center">
-                                <i class="fas fa-tasks text-3xl text-yellow-500"></i>
-                                <div class="ml-4">
-                                    <h4 class="font-bold text-lg">Gerenciamento de Tarefas</h4>
-                                    <p class="text-gray-600 text-sm">Acompanhe o andamento no Jira/Trello.</p>
+                                    <h4 class="font-bold text-lg">Coleção Postman</h4>
+                                    <p class="text-gray-600 text-sm">Arquivo para testes de API.</p>
                                 </div>
                             </div>
                         </a>
