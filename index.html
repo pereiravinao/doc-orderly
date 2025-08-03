@@ -11,10 +11,11 @@
     <!-- Chosen Palette: Tech Neutral -->
     <!-- Application Structure Plan: A single-page application with a fixed sidebar for navigation on desktop and a top-bar on mobile. This structure was chosen to provide clear, persistent navigation between the key sections of the technical document (Overview, Architecture, Flow, Tech, etc.), making it easy for a user (like an evaluator) to quickly jump to the information they need without losing context. Each section is a full-screen panel, creating a focused, app-like experience that is more engaging than a traditional long-scroll document. -->
     <!-- Visualization & Content Choices: 
-        - Report Info: Module breakdown (7 microservices, 4 common libs). Goal: Inform proportion. Viz: Key Stats Cards. Justification: Simplified view, focusing on the numbers.
+        - Report Info: Module breakdown (7 microservices, 4 common libs). Goal: Inform proportion. Viz: Key Stats Cards. Interaction: Clickable cards linking to the architecture section. Justification: Simplified view, focusing on the numbers, and provides quick navigation.
         - Report Info: Microservices list. Goal: Organize & Inform. Viz: Interactive Cards (HTML/Tailwind). Interaction: Hover effects. Justification: More visually appealing and organized than a simple list or table.
         - Report Info: Order processing flow. Goal: Explain a process. Viz: Vertical Flowchart (HTML/Tailwind). Interaction: Static visual flow. Justification: A strictly vertical flowchart is clearer and more intuitive for representing a sequential process.
         - Report Info: Execution commands. Goal: Enable user action. Viz: Styled Code Blocks (HTML/Tailwind). Interaction: Copy-to-clipboard button. Justification: Greatly improves usability by allowing easy copying of setup commands.
+        - Report Info: Useful Links & Video. Goal: Provide external resources. Viz: Embedded video and styled link cards. Interaction: Links open in new tabs. Justification: Centralizes important project resources and provides a visual presentation medium.
     -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
@@ -78,6 +79,9 @@
                 <a href="#testes" class="nav-link flex items-center py-3 px-6 text-gray-600">
                     <i class="fas fa-check-circle w-6 text-center"></i><span class="ml-3">Testes</span>
                 </a>
+                <a href="#links-video" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-link w-6 text-center"></i><span class="ml-3">Links e Vídeo</span>
+                </a>
             </nav>
         </aside>
 
@@ -95,21 +99,29 @@
             <!-- Visão Geral Section -->
             <section id="visao-geral" class="content-section">
                 <h2 class="text-3xl font-bold mb-2">Visão Geral do Projeto</h2>
-                <p class="text-lg text-gray-600 mb-8">Este documento interativo detalha a entrega do projeto Orderly, um sistema de e-commerce construído sobre uma arquitetura de microsserviços. O objetivo é demonstrar a implementação de um sistema robusto, modular e escalável.</p>
+                <p class="text-lg text-gray-600 mb-8">
+                    Este documento interativo detalha a entrega do projeto Orderly, um sistema de e-commerce construído sobre uma 
+                    <a href="#arquitetura" class="text-indigo-600 hover:underline font-semibold nav-trigger">arquitetura de microsserviços</a>. 
+                    O objetivo é demonstrar a implementação de um sistema robusto, modular e escalável. Navegue pelas seções para entender o 
+                    <a href="#fluxo-pedido" class="text-indigo-600 hover:underline font-semibold nav-trigger">fluxo de um pedido</a> ou as 
+                    <a href="#execucao" class="text-indigo-600 hover:underline font-semibold nav-trigger">instruções de execução</a>.
+                </p>
                 
                 <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
                     <h3 class="text-xl font-bold mb-4 text-center">Estrutura do Monorepo</h3>
-                    <p class="text-gray-700 text-center">O projeto foi desenvolvido utilizando um **monorepo**, que centraliza todos os microsserviços e bibliotecas compartilhadas, facilitando o gerenciamento de dependências, a padronização de código e a execução do sistema completo.</p>
-                    <div class="mt-6 flex justify-around text-center border-t pt-6">
-                        <div>
+                    <p class="text-gray-700 text-center">
+                        O projeto foi desenvolvido utilizando um **monorepo**, que centraliza todos os microsserviços e bibliotecas compartilhadas, facilitando o gerenciamento de dependências e a execução do sistema completo.
+                    </p>
+                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t pt-6">
+                        <a href="#arquitetura" class="nav-trigger block p-4 rounded-lg hover:bg-indigo-50 transition-colors">
                             <p class="text-4xl font-bold text-indigo-600">7</p>
                             <p class="text-gray-500">Microsserviços</p>
-                        </div>
-                        <div>
+                        </a>
+                        <a href="#arquitetura" class="nav-trigger block p-4 rounded-lg hover:bg-blue-50 transition-colors">
                             <p class="text-4xl font-bold text-blue-500">4</p>
                             <p class="text-gray-500">Bibliotecas Comuns</p>
-                        </div>
-                        <div>
+                        </a>
+                        <div class="block p-4 cursor-default">
                             <p class="text-4xl font-bold text-green-500">11</p>
                             <p class="text-gray-500">Módulos Totais</p>
                         </div>
@@ -232,7 +244,7 @@
                                 <span class="text-gray-300">bash</span>
                                 <button class="copy-btn text-gray-300 hover:text-white transition-colors"><i class="fas fa-copy"></i> Copiar</button>
                             </div>
-                            <pre class="p-4 text-white font-mono text-sm"><code>git clone https://github.com/pereiravinao/orderly.git
+                            <pre class="p-4 text-white font-mono text-sm"><code>git clone [URL_DO_SEU_REPOSITORIO]
 cd orderly</code></pre>
                         </div>
                     </div>
@@ -286,8 +298,70 @@ make down</code></pre>
                         <h3 class="text-xl font-semibold mb-2">Visualizar Relatório Centralizado</h3>
                         <p class="text-gray-600 mb-2">Após a execução dos testes, um relatório HTML centralizado é gerado. Abra o seguinte arquivo no seu navegador para visualizar a cobertura de cada microsserviço:</p>
                         <div class="bg-gray-100 p-4 rounded-lg text-gray-700 font-mono text-sm">
-                            testes/jacoco-reports-centralized/index.html
+                            target/jacoco-reports-centralized/index.html
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Links e Vídeo Section -->
+            <section id="links-video" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Links Úteis e Apresentação</h2>
+                <p class="text-lg text-gray-600 mb-8">Recursos adicionais, incluindo o vídeo de apresentação do projeto e links para repositórios e documentações.</p>
+
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold mb-4">Vídeo de Apresentação</h3>
+                    <div class="aspect-w-16 aspect-h-9 bg-black rounded-lg shadow-lg overflow-hidden">
+                        <iframe 
+                            class="w-full h-full"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Links Úteis</h3>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div class="flex items-center">
+                                <i class="fab fa-github text-3xl text-gray-800"></i>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">Repositório do Projeto</h4>
+                                    <p class="text-gray-600 text-sm">Acesse todo o código-fonte no GitHub.</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div class="flex items-center">
+                                <i class="fas fa-book-open text-3xl text-blue-500"></i>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">Documentação da API</h4>
+                                    <p class="text-gray-600 text-sm">Explore os endpoints via Swagger/OpenAPI.</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                             <div class="flex items-center">
+                                <i class="fas fa-chart-line text-3xl text-green-500"></i>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">Painel de Monitoramento</h4>
+                                    <p class="text-gray-600 text-sm">Visualize métricas e logs (Grafana/Kibana).</p>
+                                </div>
+                            </div>
+                        </a>
+                         <a href="#" target="_blank" class="block bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                             <div class="flex items-center">
+                                <i class="fas fa-tasks text-3xl text-yellow-500"></i>
+                                <div class="ml-4">
+                                    <h4 class="font-bold text-lg">Gerenciamento de Tarefas</h4>
+                                    <p class="text-gray-600 text-sm">Acompanhe o andamento no Jira/Trello.</p>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </section>
@@ -370,7 +444,7 @@ make down</code></pre>
             renderLibs();
             renderTech();
 
-            const navLinks = document.querySelectorAll('.nav-link');
+            const navLinks = document.querySelectorAll('.nav-link, .nav-trigger');
             const sections = document.querySelectorAll('.content-section');
             const menuToggle = document.getElementById('menu-toggle');
             const sidebar = document.getElementById('sidebar');
@@ -386,7 +460,7 @@ make down</code></pre>
                     }
                 });
 
-                navLinks.forEach(link => {
+                document.querySelectorAll('.nav-link').forEach(link => {
                     if (link.getAttribute('href') === targetHash) {
                         link.classList.add('active');
                     } else {
@@ -398,6 +472,8 @@ make down</code></pre>
                 if (window.innerWidth < 768) {
                     sidebar.classList.add('-translate-x-full');
                 }
+                
+                window.scrollTo(0, 0);
             }
 
             navLinks.forEach(link => {
