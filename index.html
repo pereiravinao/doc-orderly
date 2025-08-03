@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Orderly - Documentação Interativa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chosen Palette: Tech Neutral -->
+    <!-- Application Structure Plan: A single-page application with a fixed sidebar for navigation on desktop and a top-bar on mobile. This structure was chosen to provide clear, persistent navigation between the key sections of the technical document (Overview, Architecture, Flow, Tech, etc.), making it easy for a user (like an evaluator) to quickly jump to the information they need without losing context. Each section is a full-screen panel, creating a focused, app-like experience that is more engaging than a traditional long-scroll document. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Module breakdown (7 microservices, 4 common libs). Goal: Inform proportion. Viz: Key Stats Cards. Justification: Simplified view, focusing on the numbers.
+        - Report Info: Microservices list. Goal: Organize & Inform. Viz: Interactive Cards (HTML/Tailwind). Interaction: Hover effects. Justification: More visually appealing and organized than a simple list or table.
+        - Report Info: Order processing flow. Goal: Explain a process. Viz: Vertical Flowchart (HTML/Tailwind). Interaction: Static visual flow. Justification: A strictly vertical flowchart is clearer and more intuitive for representing a sequential process.
+        - Report Info: Execution commands. Goal: Enable user action. Viz: Styled Code Blocks (HTML/Tailwind). Interaction: Copy-to-clipboard button. Justification: Greatly improves usability by allowing easy copying of setup commands.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Roboto+Mono:wght@400;700&display=swap');
+        .font-mono {
+            font-family: 'Roboto Mono', monospace;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+        .nav-link.active, .nav-link:hover {
+            background-color: #4f46e5;
+            color: white;
+            transform: translateX(4px);
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .flow-node {
+            @apply bg-white p-4 rounded-lg shadow-lg text-center transition-transform duration-300 hover:-translate-y-1;
+        }
+        .flow-connector {
+            @apply flex items-center justify-center text-gray-400;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-white shadow-lg fixed top-0 left-0 h-full z-20 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+            <div class="p-6 border-b border-gray-200">
+                <h1 class="text-2xl font-bold text-indigo-600">Orderly</h1>
+                <p class="text-sm text-gray-500 mt-1">Documentação Interativa</p>
+            </div>
+            <nav class="mt-4">
+                <a href="#visao-geral" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-info-circle w-6 text-center"></i><span class="ml-3">Visão Geral</span>
+                </a>
+                <a href="#arquitetura" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-sitemap w-6 text-center"></i><span class="ml-3">Arquitetura</span>
+                </a>
+                <a href="#fluxo-pedido" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-project-diagram w-6 text-center"></i><span class="ml-3">Fluxo do Pedido</span>
+                </a>
+                <a href="#tecnologias" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-cogs w-6 text-center"></i><span class="ml-3">Tecnologias</span>
+                </a>
+                <a href="#execucao" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-terminal w-6 text-center"></i><span class="ml-3">Execução</span>
+                </a>
+                <a href="#testes" class="nav-link flex items-center py-3 px-6 text-gray-600">
+                    <i class="fas fa-check-circle w-6 text-center"></i><span class="ml-3">Testes</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Mobile Header -->
+        <header class="md:hidden fixed top-0 left-0 right-0 bg-white shadow-md z-30 p-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-indigo-600">Orderly</h1>
+            <button id="menu-toggle" class="text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 md:ml-64 mt-16 md:mt-0 p-6 sm:p-8 lg:p-12">
+            
+            <!-- Visão Geral Section -->
+            <section id="visao-geral" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Visão Geral do Projeto</h2>
+                <p class="text-lg text-gray-600 mb-8">Este documento interativo detalha a entrega do projeto Orderly, um sistema de e-commerce construído sobre uma arquitetura de microsserviços. O objetivo é demonstrar a implementação de um sistema robusto, modular e escalável.</p>
+                
+                <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow">
+                    <h3 class="text-xl font-bold mb-4 text-center">Estrutura do Monorepo</h3>
+                    <p class="text-gray-700 text-center">O projeto foi desenvolvido utilizando um **monorepo**, que centraliza todos os microsserviços e bibliotecas compartilhadas, facilitando o gerenciamento de dependências, a padronização de código e a execução do sistema completo.</p>
+                    <div class="mt-6 flex justify-around text-center border-t pt-6">
+                        <div>
+                            <p class="text-4xl font-bold text-indigo-600">7</p>
+                            <p class="text-gray-500">Microsserviços</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-bold text-blue-500">4</p>
+                            <p class="text-gray-500">Bibliotecas Comuns</p>
+                        </div>
+                        <div>
+                            <p class="text-4xl font-bold text-green-500">11</p>
+                            <p class="text-gray-500">Módulos Totais</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Arquitetura Section -->
+            <section id="arquitetura" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Arquitetura e Microsserviços</h2>
+                <p class="text-lg text-gray-600 mb-8">O sistema é composto por múltiplos microsserviços independentes e bibliotecas comuns, organizados para máxima coesão e baixo acoplamento.</p>
+                
+                <h3 class="text-2xl font-bold mb-4">Microsserviços (`apps/`)</h3>
+                <div id="microservices-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Microservices will be injected here by JS -->
+                </div>
+
+                <h3 class="text-2xl font-bold mb-4">Bibliotecas Compartilhadas (`commons/`)</h3>
+                <div id="libs-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Libs will be injected here by JS -->
+                </div>
+            </section>
+            
+            <!-- Fluxo do Pedido Section -->
+            <section id="fluxo-pedido" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Fluxograma de Processamento de um Pedido</h2>
+                <p class="text-lg text-gray-600 mb-8">O fluxo de um pedido é assíncrono e resiliente, orquestrado pelo `order-service` e seguindo uma sequência clara de validações para garantir a consistência dos dados.</p>
+
+                <div class="bg-gray-100 p-6 rounded-lg">
+                    <div class="flex flex-col items-center space-y-2">
+
+                        <div class="flow-node w-72">
+                            <i class="fas fa-user text-indigo-500 text-2xl mb-2"></i>
+                            <h4 class="font-bold">1. Cliente</h4>
+                            <p class="text-xs text-gray-500">Inicia o pedido via API REST</p>
+                        </div>
+
+                        <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                        <div class="flow-node w-72">
+                            <i class="fas fa-inbox text-indigo-500 text-2xl mb-2"></i>
+                            <h4 class="font-bold">2. Order Receiver</h4>
+                            <p class="text-xs text-gray-500">Recebe, valida e publica na fila</p>
+                        </div>
+
+                        <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                        <div class="flow-node w-72">
+                            <i class="fas fa-envelope text-blue-500 text-2xl mb-2"></i>
+                            <h4 class="font-bold">3. RabbitMQ</h4>
+                            <p class="text-xs text-gray-500">Pedido aguarda em uma fila</p>
+                        </div>
+                        
+                        <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                        <div class="flow-node w-72">
+                            <i class="fas fa-cogs text-indigo-500 text-2xl mb-2"></i>
+                            <h4 class="font-bold">4. Order Service</h4>
+                            <p class="text-xs text-gray-500">Consome da fila e inicia a orquestração</p>
+                        </div>
+
+                        <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                        <div class="w-full max-w-md p-4 border-2 border-indigo-400 border-dashed rounded-lg bg-indigo-50">
+                            <h4 class="font-bold text-center text-indigo-700 mb-4">Orquestração de Validações</h4>
+                            <div class="flex flex-col items-center space-y-2">
+                                <div class="flow-node w-full">
+                                     <i class="fas fa-exchange-alt text-green-500 text-xl mb-2"></i>
+                                     <h5 class="font-semibold">4a. Validação de Estoque</h5>
+                                     <p class="text-xs text-gray-500">Comunicação com <strong>Stock Service</strong></p>
+                                </div>
+                                
+                                <div class="flow-connector text-xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                                <div class="flow-node w-full">
+                                    <i class="fas fa-exchange-alt text-green-500 text-xl mb-2"></i>
+                                    <h5 class="font-semibold">4b. Processamento de Pagamento</h5>
+                                    <p class="text-xs text-gray-500">Comunicação com <strong>Payment Service</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flow-connector text-2xl"><i class="fas fa-long-arrow-alt-down"></i></div>
+
+                        <div class="flow-node w-72">
+                             <i class="fas fa-flag-checkered text-purple-500 text-2xl mb-2"></i>
+                             <h4 class="font-bold">5. Atualização de Status Final</h4>
+                             <div class="mt-2 flex flex-wrap justify-center gap-2">
+                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-green-600 bg-green-200">SUCESSO</span>
+                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-yellow-600 bg-yellow-200">SEM ESTOQUE</span>
+                                <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-red-600 bg-red-200">SEM CRÉDITO</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tecnologias Section -->
+            <section id="tecnologias" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Tecnologias e Ferramentas</h2>
+                <p class="text-lg text-gray-600 mb-8">O projeto utiliza um conjunto de tecnologias modernas para garantir performance, segurança e manutenibilidade.</p>
+                
+                <div id="tech-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                     <!-- Tech cards will be injected here by JS -->
+                </div>
+            </section>
+
+            <!-- Execução Section -->
+            <section id="execucao" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Instruções de Execução</h2>
+                <p class="text-lg text-gray-600 mb-8">Para executar o projeto, siga os passos abaixo. É necessário ter **JDK 21**, **Maven** e **Docker** instalados.</p>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Passo 1: Clonar o Repositório</h3>
+                        <p class="text-gray-600 mb-2">Use o comando abaixo para clonar o repositório do projeto para sua máquina local.</p>
+                        <div class="code-block bg-gray-800 rounded-lg overflow-hidden">
+                            <div class="flex justify-between items-center p-2 bg-gray-700 text-sm">
+                                <span class="text-gray-300">bash</span>
+                                <button class="copy-btn text-gray-300 hover:text-white transition-colors"><i class="fas fa-copy"></i> Copiar</button>
+                            </div>
+                            <pre class="p-4 text-white font-mono text-sm"><code>git clone https://github.com/pereiravinao/orderly.git
+cd orderly</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Passo 2: Construir todos os Módulos</h3>
+                        <p class="text-gray-600 mb-2">Execute o comando a seguir na raiz do monorepo para compilar o projeto e instalar as dependências.</p>
+                        <div class="code-block bg-gray-800 rounded-lg overflow-hidden">
+                            <div class="flex justify-between items-center p-2 bg-gray-700 text-sm">
+                                <span class="text-gray-300">bash</span>
+                                <button class="copy-btn text-gray-300 hover:text-white transition-colors"><i class="fas fa-copy"></i> Copiar</button>
+                            </div>
+                            <pre class="p-4 text-white font-mono text-sm"><code>mvn clean install</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Passo 3: Subir a Infraestrutura (Recomendado)</h3>
+                        <p class="text-gray-600 mb-2">Utilize o Makefile para iniciar todos os contêineres de forma integrada.</p>
+                        <div class="code-block bg-gray-800 rounded-lg overflow-hidden">
+                            <div class="flex justify-between items-center p-2 bg-gray-700 text-sm">
+                                <span class="text-gray-300">bash</span>
+                                <button class="copy-btn text-gray-300 hover:text-white transition-colors"><i class="fas fa-copy"></i> Copiar</button>
+                            </div>
+                            <pre class="p-4 text-white font-mono text-sm"><code># Sobe todos os serviços em modo detached
+make up
+
+# Para derrubar todos os serviços
+make down</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testes Section -->
+            <section id="testes" class="content-section">
+                <h2 class="text-3xl font-bold mb-2">Testes e Qualidade de Código</h2>
+                <p class="text-lg text-gray-600 mb-8">A qualidade do código é garantida por testes unitários e uma cobertura mínima de 80%, aferida com JaCoCo.</p>
+                
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Executar Testes e Gerar Relatórios</h3>
+                        <p class="text-gray-600 mb-2">Para rodar os testes de todos os módulos e gerar os relatórios de cobertura, utilize o comando do Makefile na raiz do projeto.</p>
+                        <div class="code-block bg-gray-800 rounded-lg overflow-hidden">
+                            <div class="flex justify-between items-center p-2 bg-gray-700 text-sm">
+                                <span class="text-gray-300">bash</span>
+                                <button class="copy-btn text-gray-300 hover:text-white transition-colors"><i class="fas fa-copy"></i> Copiar</button>
+                            </div>
+                            <pre class="p-4 text-white font-mono text-sm"><code>make test-coverage</code></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold mb-2">Visualizar Relatório Centralizado</h3>
+                        <p class="text-gray-600 mb-2">Após a execução dos testes, um relatório HTML centralizado é gerado. Abra o seguinte arquivo no seu navegador para visualizar a cobertura de cada microsserviço:</p>
+                        <div class="bg-gray-100 p-4 rounded-lg text-gray-700 font-mono text-sm">
+                            testes/jacoco-reports-centralized/index.html
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const microservices = [
+            { icon: 'fa-user-shield', name: 'auth-service', desc: 'Autenticação e autorização de usuários, utilizando Spring Security.' },
+            { icon: 'fa-inbox', name: 'order-receiver-producer', desc: 'Recebe requisições de pedidos e as publica em uma fila para processamento.' },
+            { icon: 'fa-shopping-cart', name: 'order-service', desc: 'Orquestrador central do fluxo de pedidos, consumindo da fila e gerenciando o processo.' },
+            { icon: 'fa-credit-card', name: 'payment-service', desc: 'Simula o processamento de pagamentos com um adapter mock.' },
+            { icon: 'fa-box-open', name: 'product-service', desc: 'Gerencia o cadastro, consulta e atualização de informações de produtos.' },
+            { icon: 'fa-boxes', name: 'stock-service', desc: 'Controla a quantidade de produtos em estoque, realizando baixas e estornos.' },
+            { icon: 'fa-user-edit', name: 'user-service', desc: 'Gerencia os dados cadastrais dos clientes (nome, CPF, endereço).' }
+        ];
+
+        const libs = [
+            { icon: 'fa-lock', name: 'common-auth', desc: 'Componentes de segurança.' },
+            { icon: 'fa-network-wired', name: 'common-feign', desc: 'Clientes Feign para comunicação.' },
+            { icon: 'fa-envelope', name: 'common-queue', desc: 'DTOs e configs para RabbitMQ.' },
+            { icon: 'fa-tools', name: 'common-utils', desc: 'Utilitários e exceções gerais.' }
+        ];
+
+        const technologies = [
+            { name: 'Java 21', category: 'Linguagem' },
+            { name: 'Spring Boot 3.x', category: 'Framework' },
+            { name: 'Maven', category: 'Gerenciamento' },
+            { name: 'PostgreSQL', category: 'Banco de Dados' },
+            { name: 'RabbitMQ', category: 'Mensageria' },
+            { name: 'OpenFeign', category: 'Comunicação' },
+            { name: 'Spring Security', category: 'Segurança' },
+            { name: 'Docker', category: 'Execução' },
+            { name: 'JaCoCo', category: 'Testes' },
+            { name: 'JUnit 5', category: 'Testes' },
+            { name: 'Mockito', category: 'Testes' },
+            { name: 'Flyway', category: 'Banco de Dados' },
+        ];
+
+        // --- RENDER FUNCTIONS ---
+        function renderMicroservices() {
+            const grid = document.getElementById('microservices-grid');
+            grid.innerHTML = microservices.map(s => `
+                <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    <div class="flex items-center mb-3">
+                        <i class="fas ${s.icon} text-2xl text-indigo-500"></i>
+                        <h4 class="font-bold text-lg ml-3">${s.name}</h4>
+                    </div>
+                    <p class="text-gray-600 text-sm">${s.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderLibs() {
+            const grid = document.getElementById('libs-grid');
+            grid.innerHTML = libs.map(l => `
+                <div class="bg-gray-100 p-4 rounded-lg text-center hover:bg-gray-200 transition-colors">
+                    <i class="fas ${l.icon} text-3xl text-gray-500 mb-2"></i>
+                    <h4 class="font-semibold">${l.name}</h4>
+                    <p class="text-xs text-gray-500">${l.desc}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderTech() {
+            const grid = document.getElementById('tech-grid');
+            grid.innerHTML = technologies.map(t => `
+                <div class="bg-white p-4 rounded-lg shadow flex flex-col items-center justify-center text-center">
+                    <p class="font-bold">${t.name}</p>
+                    <p class="text-xs text-gray-500">${t.category}</p>
+                </div>
+            `).join('');
+        }
+
+        // --- EVENT LISTENERS & NAVIGATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMicroservices();
+            renderLibs();
+            renderTech();
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.content-section');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+
+            function showSection(hash) {
+                const targetHash = hash || '#visao-geral';
+                
+                sections.forEach(section => {
+                    if ('#' + section.id === targetHash) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    if (link.getAttribute('href') === targetHash) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+                
+                // Close sidebar on mobile after navigation
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('-translate-x-full');
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetHash = e.currentTarget.getAttribute('href');
+                    history.pushState(null, null, targetHash);
+                    showSection(targetHash);
+                });
+            });
+
+            window.addEventListener('popstate', () => {
+                showSection(window.location.hash);
+            });
+            
+            showSection(window.location.hash);
+
+            // Mobile menu toggle
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+
+            // Copy to clipboard
+            document.querySelectorAll('.copy-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const codeBlock = e.currentTarget.closest('.code-block');
+                    const code = codeBlock.querySelector('pre code').innerText;
+                    
+                    const tempTextArea = document.createElement('textarea');
+                    tempTextArea.value = code;
+                    document.body.appendChild(tempTextArea);
+                    tempTextArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(tempTextArea);
+
+                    e.currentTarget.innerHTML = '<i class="fas fa-check"></i> Copiado!';
+                    setTimeout(() => {
+                        e.currentTarget.innerHTML = '<i class="fas fa-copy"></i> Copiar';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
